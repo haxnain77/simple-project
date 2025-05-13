@@ -1,35 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Home from './Home';
+import Login from './Login';
+import Contact from './Contact';
 import './App.css';
 
 function App() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch('https://dummyjson.com/products')
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data.products);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) return <h2>Loading products...</h2>;
-
   return (
-    <div className="container">
-      <h1>Product List</h1>
-      <div className="product-grid">
-        {products.map((product) => (
-          <div className="card" key={product.id}>
-            <img src={product.thumbnail} alt={product.title} />
-            <h3>{product.title}</h3>
-            <p>Price: ${product.price}</p>
-            <p>{product.description.slice(0, 60)}...</p>
-          </div>
-        ))}
+    <Router>
+      <div className="container">
+        <nav>
+          <Link to="/">Home</Link> | 
+          <Link to="/login">Login</Link> | 
+          <Link to="/contact">Contact</Link>
+        </nav>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
       </div>
-    </div>
+    </Router>
   );
 }
 
